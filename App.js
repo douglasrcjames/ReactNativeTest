@@ -1,114 +1,109 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, { Component } from 'react';
+import { View, KeyboardAvoidingView, TextInput, Text, Platform, TouchableWithoutFeedback, Keyboard, ActivityIndicator, SafeAreaView, ScrollView, Button, StatusBar   } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator, useHeaderHeight } from '@react-navigation/stack';
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+const Stack = createStackNavigator();
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const App: () => React$Node = () => {
+function TicketStack() {
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <Stack.Navigator>
+      <Stack.Screen name="Ticket" component={TicketScreen} />
+      <Stack.Screen name="Chat" component={ChatScreen} />
+    </Stack.Navigator>
   );
-};
+}
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+function HomeScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home screen!</Text>
+    </View>
+  );
+}
 
-export default App;
+function TicketScreen(props){
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Ticket screen!</Text>
+      <Button title="Go to Chat" onPress={() => props.navigation.navigate('Chat')} />
+    </View>
+  );
+}
+
+function CustomKeyboardAvoidingView({ children, style }) {
+    const headerHeight = useHeaderHeight();
+
+    return (
+        <KeyboardAvoidingView
+            style={style}
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={headerHeight + StatusBar.currentHeight}
+        >
+            {children}
+        </KeyboardAvoidingView>
+    );
+}
+
+function ChatScreen(){
+  return(
+    <SafeAreaView SafeAreaView style={{flex: 1, backgroundColor: "grey"}}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <CustomKeyboardAvoidingView style={{backgroundColor: "#fff", flex: 1, flexDirection: "column", justifyContent: "space-between" }}>
+          <View style={{backgroundColor: "dodgerblue", paddingVertical: 15}}>
+              <View style={{ margin: 10, marginBottom: 15}}>
+                  <ActivityIndicator size="large" style={{marginBottom: 10}}/>
+                  <Text>Waiting for more info here....</Text>
+              </View>
+          </View>
+
+          <ScrollView style={{backgroundColor: "tomato", paddingVertical: 15}}>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+              <Text>Chat messages</Text>
+          </ScrollView>
+          
+          <View style={{backgroundColor: "yellow", paddingVertical: 15}}>
+              <TextInput placeholder="Type your message here" />
+          </View>
+        </CustomKeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </SafeAreaView>
+  )
+}
+
+const Tab = createBottomTabNavigator();
+
+export default class App extends Component {
+  render(){
+    return (
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Ticket" component={TicketStack} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    );
+  }
+}
