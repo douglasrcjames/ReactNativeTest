@@ -147,8 +147,7 @@ function SafeAreaNavigation(){
           })}
           tabBarOptions={{
             style: {
-              height: 70,
-              backgroundColor: "dodgerblue"
+              height: 70
             }, 
             activeTintColor: "#fff",
             inactiveTintColor: "dodgerblue",
