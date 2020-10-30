@@ -74,7 +74,7 @@ function CustomKeyboardAvoidingView({ children, style }) {
         <KeyboardAvoidingView
             style={style}
             behavior={Platform.OS == "ios" ? "padding" : "height"}
-            keyboardVerticalOffset={headerHeight + topPadding}
+            keyboardVerticalOffset={headerHeight + topPadding + StatusBar.currentHeight}
         >
             {children}
         </KeyboardAvoidingView>
@@ -128,57 +128,52 @@ function ChatScreen(){
 
 const Tab = createBottomTabNavigator();
 
-function SafeAreaNavigation(){
-  return(
-    <SafeAreaView style={{flex: 1, backgroundColor: "dodgerblue"}}>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ color, size }) => {
-              let iconName;
-
-              if (route.name === 'Home') {
-                iconName = 'home';
-              } else if (route.name === 'Ticket') {
-                iconName = 'question';
-              }
-              return <FontAwesome5 name={iconName} size={size} color={color} />;
-            },
-          })}
-          tabBarOptions={{
-            style: {
-              height: 70
-            }, 
-            activeTintColor: "#fff",
-            inactiveTintColor: "dodgerblue",
-            inactiveBackgroundColor: "#fff",
-            activeBackgroundColor: "dodgerblue",                               
-            tabStyle: {
-              paddingTop: 10,
-              paddingBottom: 10,
-              height: 70
-            },
-            labelStyle: {
-              fontSize: 14
-            },
-          }}>
-          <Tab.Screen name="Home">
-            {(props) => <HomeScreen {...props} />}
-          </Tab.Screen>
-          <Tab.Screen name="Ticket">
-            {(props) => <TicketStack {...props} />}
-          </Tab.Screen>
-        </Tab.Navigator>
-      </NavigationContainer>
-    </SafeAreaView>
-  )
-}
-
 export default class App extends Component {
   render(){
     return (
       <SafeAreaProvider>
-        <SafeAreaNavigation />
+        <SafeAreaView style={{flex: 1, backgroundColor: "dodgerblue"}}>
+          <NavigationContainer>
+            <Tab.Navigator
+              screenOptions={({ route }) => ({
+                tabBarIcon: ({ color, size }) => {
+                  let iconName;
+
+                  if (route.name === 'Home') {
+                    iconName = 'home';
+                  } else if (route.name === 'Ticket') {
+                    iconName = 'question';
+                  }
+                  return <FontAwesome5 name={iconName} size={size} color={color} />;
+                },
+              })}
+              tabBarOptions={{
+                style: {
+                  height: 70
+                }, 
+                activeTintColor: "#fff",
+                inactiveTintColor: "dodgerblue",
+                inactiveBackgroundColor: "#fff",
+                activeBackgroundColor: "dodgerblue",                               
+                tabStyle: {
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  height: 70
+                },
+                labelStyle: {
+                  fontSize: 14
+                },
+                keyboardHidesTabBar: (Platform.OS == "ios" ? false : true)
+              }}>
+              <Tab.Screen name="Home">
+                {(props) => <HomeScreen {...props} />}
+              </Tab.Screen>
+              <Tab.Screen name="Ticket">
+                {(props) => <TicketStack {...props} />}
+              </Tab.Screen>
+            </Tab.Navigator>
+          </NavigationContainer>
+        </SafeAreaView>
       </SafeAreaProvider>
     );
   }
